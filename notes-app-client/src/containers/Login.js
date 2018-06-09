@@ -35,7 +35,6 @@ export default class Login extends Component {
     try {
       await Auth.signIn(this.state.email, this.state.password);
       this.props.userHasAuthenticated(true);
-      this.props.history.push('/');
     } catch (e) {
       if(e.code === 'UserNotConfirmedException'){
         alert('Account not confirmed, please re-submit Signup form');
