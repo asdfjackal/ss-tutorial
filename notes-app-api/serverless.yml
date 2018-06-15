@@ -1,10 +1,15 @@
-service: notes-app-api
+service: notes-app-2-api
 
 plugins:
   - serverless-webpack
   - serverless-offline
 
 custom:
+  stage: ${opt:stage, self:provider.stage}
+  tableThroughputs:
+    prod: 5
+    default: 1
+  tableThroughput: ${self:custom.tableThroughputs.${self:custom.stage}, self:custom.tableThroughputs.default}
   webpack:
     webpackConfig: ./webpack.config.js
     includeModules: true
@@ -13,7 +18,7 @@ custom:
 provider:
   name: aws
   runtime: nodejs8.10
-  stage: prod
+  stage: dev
   region: us-east-1
 
   iamRoleStatements:
@@ -26,7 +31,8 @@ provider:
         - dynamodb:PutItem
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
-      Resource: "arn:aws:dynamodb:us-east-1:*:*"
+      Resource:
+        - "Fn::GetAtt": [ NotesTable, Arn ]
 
 functions:
   create:
@@ -69,3 +75,6 @@ functions:
           method: delete
           cors: true
           authorizer: aws_iam
+
+resources:
+  - ${file(resources/dynamodb-table.yml)}
