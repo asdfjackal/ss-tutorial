@@ -82,7 +82,7 @@ export default class Home extends Component {
 
   renderNotes() {
     return (
-      <div clanssName="notes">
+      <div className="notes">
         <PageHeader>Your Notes</PageHeader>
         <ListGroup>
           {!this.state.isLoading && this.renderNotesList(this.state.notes)}
