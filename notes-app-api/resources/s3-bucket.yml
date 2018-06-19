@@ -1,5 +1,5 @@
 Resources:
-  AttachmentBucket:
+  AttachmentsBucket:
       Type: AWS::S3::Bucket
       Properties:
         CorsConfiguration:
@@ -20,4 +20,4 @@ Resources:
 Outputs:
   AttachmentsBucketName:
     Value:
-      Ref: AttachmentBucket
+      Ref: AttachmentsBucket

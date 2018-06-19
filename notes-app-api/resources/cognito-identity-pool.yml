@@ -1,14 +1,20 @@
 Resources:
+  # The federated identity for our user pool to auth with
   CognitoIdentityPool:
     Type: AWS::Cognito::IdentityPool
     Properties:
-      IdentityPoolName: ${self:custom.stage}NotesIdentityPool
+      # Generate a name based on the stage
+      IdentityPoolName: ${self:custom.stage}IdentityPool
+      # Don't allow unathenticated users
       AllowUnauthenticatedIdentities: false
+      # Link to our User Pool
       CognitoIdentityProviders:
         - ClientId:
             Ref: CognitoUserPoolClient
           ProviderName:
             Fn::GetAtt: [ "CognitoUserPool", "ProviderName" ]
+
+  # IAM roles
   CognitoIdentityPoolRoles:
     Type: AWS::Cognito::IdentityPoolRoleAttachment
     Properties:
@@ -17,6 +23,8 @@ Resources:
       Roles:
         authenticated:
           Fn::GetAtt: [CognitoAuthRole, Arn]
+
+  # IAM role used for authenticated users
   CognitoAuthRole:
     Type: AWS::IAM::Role
     Properties:
@@ -31,10 +39,10 @@ Resources:
               - 'sts:AssumeRoleWithWebIdentity'
             Condition:
               StringEquals:
-                'cognito-identity.amazonaws.com:aud'
+                'cognito-identity.amazonaws.com:aud':
                   Ref: CognitoIdentityPool
-              'ForAnyValue:StringLike' :
-                'cognito-identity.amazonaws.com.amr': authenticated
+              'ForAnyValue:StringLike':
+                'cognito-identity.amazonaws.com:amr': authenticated
       Policies:
         - PolicyName: 'CognitoAuthorizedPolicy'
           PolicyDocument:
@@ -76,6 +84,8 @@ Resources:
                       - '/private/'
                       - '$'
                       - '{cognito-identity.amazonaws.com:sub}/*'
+
+# Print out the Id of the Identity Pool that is created
 Outputs:
   IdentityPoolId:
     Value:
