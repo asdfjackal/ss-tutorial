@@ -27,6 +27,7 @@ class App extends Component {
       }
     } catch (e) {
       if (e !== 'No current user') {
+        console.log(e);
         alert(e);
       }
     }

@@ -33,6 +33,9 @@ provider:
         - dynamodb:DeleteItem
       Resource:
         - "Fn::GetAtt": [ NotesTable, Arn ]
+  environment:
+    tableName:
+      Ref: NotesTable
 
 functions:
   create:
@@ -81,7 +84,3 @@ resources:
   - ${file(resources/s3-bucket.yml)}
   - ${file(resources/cognito-user-pool.yml)}
   - ${file(resources/cognito-identity-pool.yml)}
-
-environment:
-  tableName:
-    Ref: NotesTable

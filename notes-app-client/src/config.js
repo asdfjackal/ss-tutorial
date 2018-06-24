@@ -1,17 +1,17 @@
 export default {
   MAX_ATTACHMENT_SIZE: 5000000,
   s3: {
-    REGION: 'us-east-1',
-    BUCKET: 'sstutorial-uploads'
+    REGION: process.env.REACT_APP_S3_UPLOADS_BUCKET_REGION,
+    BUCKET: process.env.REACT_APP_S3_UPLOADS_BUCKET_NAME,
   },
   apiGateway: {
-    REGION: 'us-east-1',
-    URL: 'https://1hq4mdza9l.execute-api.us-east-1.amazonaws.com/prod',
+    REGION: process.env.REACT_APP_API_GATEWAY_REGION,
+    URL: process.env.REACT_APP_API_GATEWAY_URL,
   },
   cognito: {
-    REGION: 'us-east-1',
-    USER_POOL_ID: 'us-east-1_doDpJytwG',
-    APP_CLIENT_ID: '7b078f5fpa6o5hrq0el45q8npg',
-    IDENTITY_POOL_ID: 'us-east-1:a281e9fe-50b5-447b-9622-602fb945818f'
+    REGION: process.env.REACT_APP_COGNITO_REGION,
+    USER_POOL_ID: process.env.REACT_APP_COGNITO_USER_POOL_ID,
+    APP_CLIENT_ID: process.env.REACT_APP_COGNITO_APP_CLIENT_ID,
+    IDENTITY_POOL_ID: process.env.REACT_APP_IDENTITY_POOL_ID,
   }
 }

@@ -9,7 +9,7 @@ import config from './config';
 
 import './index.css';
 
-Amplify.configure({
+const amplifyConfig = {
   Auth: {
     mandatorySignIn: true,
     region: config.cognito.REGION,
@@ -31,7 +31,11 @@ Amplify.configure({
       }
     ]
   }
-});
+};
+
+console.log(amplifyConfig);
+
+Amplify.configure(amplifyConfig);
 
 ReactDOM.render(
   <Router>
